@@ -1,0 +1,71 @@
+//node connectivity with mongodb :-
+
+//node = mongooose (library)
+
+///----------------------------------
+
+
+///make a company db in mongodb ;-
+//- coonect db
+///- use company;
+
+
+//make a practical folder in vs code - open terminal  ;-
+//> npm install mongoose
+
+// make main.js 
+// in main,js 
+
+// connection steps
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://127.0.0.1:27017/company");
+
+// making structure
+const empSchema = mongoose.Schema({
+  name: String,
+  id: Number,
+  sal: Number,
+});
+
+//insert query
+const insEmp = async () => {
+  const empModel = mongoose.model("emps", empSchema);
+  const new_emp = new empModel({
+    name: "roy",
+    id: 23,
+    sal: 90000,
+  }); //storing data
+  const result = new_emp.save(); // permanant save data
+  console.log(result);
+};
+insEmp();
+
+// update query
+const updateEmp = async () => {
+  const empModel = mongoose.model("emps", empSchema);
+  // Modification: Use await to wait for the promise returned by updateOne
+  const result = await empModel.updateOne(
+    { name: "joy" },
+    { $set: { sal: 100000 } }
+  );
+  console.log(result);
+};
+updateEmp();
+
+//show(find)
+const showEmp = async () => {
+  const empModel = mongoose.model("emps", empSchema);
+  const result = await empModel.find();
+  result.forEach((emp) => {
+    console.log(emp);
+  });
+};
+showEmp();
+
+// delete query
+const deleteEmp = async () => {
+  const empModel = mongoose.model("emps", empSchema);
+  const result = await empModel.deleteMany({ id: 20 });
+  console.log(result);
+};
+deleteEmp();
